@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Http\RedirectResponse;
+use App\m_ingreso;
 use App\Http\Requests;
 
-class usuarios extends Controller
+class c_ingreso extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class usuarios extends Controller
      */
     public function index()
     {
-		$personal = DB::select("SELECT * FROM personal");
-		return view("v_usuarios",['p' => $personal]);
+        $ingresos = m_ingreso::get();
+        return view("items.index", [ "items" => $ingresos, "pagina" => "ingresos" ]);
     }
 
     /**
@@ -26,7 +27,7 @@ class usuarios extends Controller
      */
     public function create()
     {
-        //
+        return view("items.crear", ["pagina" => "ingresos"]);
     }
 
     /**
@@ -37,7 +38,11 @@ class usuarios extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ingreso = new m_ingreso;
+        $ingreso->descripcion = $request->input("descripcion");
+        $ingreso->abreviatura = $request->input("abreviatura");
+        $ingreso->save();
+        return redirect("/ingresos");
     }
 
     /**
@@ -59,7 +64,8 @@ class usuarios extends Controller
      */
     public function edit($id)
     {
-        //
+        $ingreso = m_ingreso::find($id);
+        return view("items.editar", ["item" => $ingreso, "pagina" => "ingresos"]);
     }
 
     /**
@@ -71,7 +77,11 @@ class usuarios extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ingreso = m_ingreso::find($id);
+        $ingreso->descripcion = $request->input("descripcion");
+        $ingreso->abreviatura = $request->input("abreviatura");
+        $ingreso->save();
+        return redirect("/ingresos");
     }
 
     /**
@@ -82,6 +92,7 @@ class usuarios extends Controller
      */
     public function destroy($id)
     {
-        //
+        m_ingreso::destroy($id);
+        return redirect("/ingresos");
     }
 }

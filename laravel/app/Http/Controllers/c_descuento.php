@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
-use App\personalMDL;
+use Illuminate\Http\RedirectResponse;
+use App\m_descuento;
 use App\Http\Requests;
 
-class personalCTRL extends Controller
+class c_descuento extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,8 @@ class personalCTRL extends Controller
      */
     public function index()
     {
-        $arr_personal = DB::select("SELECT * FROM personal");
-		$per_1 = personalMDL::all();
-		
-		return view("v_personal",["arr_p" => $arr_personal, "arr_obj" => $per_1]);
+        $descuentos = m_descuento::get();
+        return view("items.index", [ "items" => $descuentos, "pagina" => "descuentos" ]);
     }
 
     /**
@@ -29,7 +27,7 @@ class personalCTRL extends Controller
      */
     public function create()
     {
-        //
+        return view("items.crear", ["pagina" => "descuentos"]);
     }
 
     /**
@@ -40,7 +38,11 @@ class personalCTRL extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $descuento = new m_descuento;
+        $descuento->descripcion = $request->input("descripcion");
+        $descuento->abreviatura = $request->input("abreviatura");
+        $descuento->save();
+        return redirect("/descuentos");
     }
 
     /**
@@ -62,7 +64,8 @@ class personalCTRL extends Controller
      */
     public function edit($id)
     {
-        //
+        $descuento = m_descuento::find($id);
+        return view("items.editar", ["item" => $descuento, "pagina" => "descuentos"]);
     }
 
     /**
@@ -74,7 +77,11 @@ class personalCTRL extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $descuento = m_descuento::find($id);
+        $descuento->descripcion = $request->input("descripcion");
+        $descuento->abreviatura = $request->input("abreviatura");
+        $descuento->save();
+        return redirect("/descuentos");
     }
 
     /**
@@ -85,6 +92,7 @@ class personalCTRL extends Controller
      */
     public function destroy($id)
     {
-        //
+        m_descuento::destroy($id);
+        return redirect("/descuentos");
     }
 }

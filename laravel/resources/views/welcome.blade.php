@@ -16,7 +16,8 @@
                 width: 100%;
                 display: table;
                 font-weight: 100;
-                font-family: 'Lato';
+                /*font-family: 'Lato';*/
+                font-family: 'courier';
             }
 
             .container {
@@ -38,7 +39,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title">LARAVEL 5: SISTEMA DE PLANILLAS</div>
             </div>
         </div>
     </body>
