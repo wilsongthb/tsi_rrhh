@@ -89,3 +89,6 @@ Route::group(["prefix" => "listaaportes"], function(){
     Route::post("editar/{id}","c_listaaportes@update");
     Route::get("eliminar/{id}","c_listaaportes@destroy");
 });
+
+
+/*rutas para remuneraciones*/
